@@ -22,6 +22,10 @@ let images = [
   'mountains.jpeg',
   'computer.jpeg',
   'trees.jpeg',
+  'turntable.jpeg',
+  'mountains.jpeg',
+  'computer.jpeg',
+  'trees.jpeg',
   'turntable.jpeg'
 ]
 
@@ -38,6 +42,7 @@ function createCarousel(images){
 
   let leftButton = document.createElement('div');
   leftButton.classList.add('left-button');
+  leftButton.click(function() {nextSlide(5)})
   leftButton.textContent = left;
 
   let rightButton = document.createElement('div');
@@ -76,6 +81,17 @@ function showSlides() {
 }
 
 function nextSlide(n) {
+  var i;
+  var slides = document.getElementsByClassName("slides");
+  if (n > slides.length) {index = 1}
+  if (n < 1) {index = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  slides[index-1].style.display = "block";
+}
+
+function previousSlide(n) {
   var i;
   var slides = document.getElementsByClassName("slides");
   if (n > slides.length) {index = 1}
