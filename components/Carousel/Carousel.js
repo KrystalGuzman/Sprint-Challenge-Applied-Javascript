@@ -17,52 +17,71 @@
     <div class="right-button"> > </div>
   </div>
 */
-const container = document.querySelector('.carousel-container');
 
-function createCarousel(){
+let images = [
+  'mountains.jpeg',
+  'computer.jpeg',
+  'trees.jpeg',
+  'turntable.jpeg'
+]
 
-	// elements created
-  const carousel = document.createElement('div');
-  const left = document.createElement('div');
-  const mountain = document.createElement('img');
-  const computer = document.createElement('img');
-  const trees = document.createElement('img');
-  const turntable = document.createElement('img');
-  const right = document.createElement('div');
+const carouselElement = document.querySelector('.carousel-container');
 
-  //classes added
-  carousel.classList.add('carousel');
-  left.classList.add('left-button');
-  mountain.classList.add('carousel1');
-  computer.classList.add('carousel1');
-  trees.classList.add('carousel1');
-  turntable.classList.add('carousel1');
-  right.classList.add('right-button');
-  
-//content added
-  mountain.src = './assets/carousel/mountains.jpeg';
-  computer.src = './assets/carousel/computer.jpeg';
-  trees.src = './assets/carousel/trees.jpeg';
-  turntable.src = './assets/carousel/turntable.jpeg';
-  const rightBtn = '\u25ba';
-  const leftBtn = '\u25c4';
-  
-  // elements structured
-  carousel.append(left);
-  carousel.append(mountain);
-  carousel.append(computer);
-  carousel.append(trees);
-  carousel.append(turntable);
-  carousel.append(right);
+carouselElement.appendChild(createCarousel(images));
 
-  // // add this functionality later
-  // left.addEventListener("click", () => {
-  //   left.classList.toggle("left-button");
-  // });
-  // right.addEventListener("click", () => {
-  //   right.classList.toggle("right-button");
-  // });
-  return carousel;
+function createCarousel(images){
+  let carouselDiv = document.createElement('div');
+  carouselDiv.classList.add('carousel');
+
+  const left = '\u25c4';
+  const right = '\u25ba';
+
+  let leftButton = document.createElement('div');
+  leftButton.classList.add('left-button');
+  leftButton.textContent = left;
+
+  let rightButton = document.createElement('div');
+  rightButton.classList.add('right-button');
+  rightButton.click(function() {nextSlide(1)})
+  rightButton.textContent = right;
+
+  carouselDiv.appendChild(leftButton);
+
+  images.forEach((image) => {
+    let imagesElem = document.createElement('img');
+    imagesElem.classList.add("slides")
+    imagesElem.src = `../../assets/carousel/${image}`;
+    carouselDiv.appendChild(imagesElem);
+  })
+
+  carouselDiv.appendChild(rightButton);
+
+  return carouselDiv;
 }
-console.log(createCarousel());
 
+var index = 0;
+showSlides(index);
+// nextSlide(index);
+
+function showSlides() {
+  var i;
+  var slides = document.getElementsByClassName("slides");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  index++;
+  if (index > slides.length) {index = 1}
+  slides[index-1].style.display = "block";
+  setTimeout(showSlides, 4000);
+}
+
+function nextSlide(n) {
+  var i;
+  var slides = document.getElementsByClassName("slides");
+  if (n > slides.length) {index = 1}
+  if (n < 1) {index = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  slides[index-1].style.display = "block";
+}
